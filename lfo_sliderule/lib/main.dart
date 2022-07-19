@@ -45,27 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-          child: GridView.count(
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(35),
-              crossAxisCount: 4,
-              children: List.generate(
-                16,
-                (index) {
-                  // TODO: Add an outline
-                  // TODO: Make the fill color configurable
-                  return Card(
-                    child: Container(
-                      color: Colors.blue,
-                      padding: const EdgeInsets.all(5),
-                      child: Center(
-                        child: Text((index + 1).toString()),
-                      ),
-                    ),
-                  );
-                },
-              ))),
+      body: const Center(child: const Text('TODO: Everything')),
     );
   }
 }
