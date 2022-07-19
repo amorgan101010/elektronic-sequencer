@@ -4,17 +4,25 @@ This seems like a doable flutter programming challenge, making some sliders and 
 
 ## Goals
 
-- Display 1 slider for BPM (fixed LFO rate and multiplier of 32 and 1 respectively)
+- ~~Display 1 slider for BPM (fixed LFO rate and multiplier of 32 and 1 respectively)~~
 
-  - Range of 30-300bpm (ignore fractional BPM for now)
+  - ~~Range of 30-300bpm (ignore fractional BPM for now)~~
 
-- Print LFO Cycle duration in steps, beats, and seconds
+  - Add fractional BPM
 
-  - First implement steps, then seconds, then beats (in order of complexity)
+- Print LFO Cycle duration in steps, bars/beats/steps/remainder, and seconds
 
-- Add two more sliders (Rate 1-127 and Multiplier 1-64 in powers of 2)
+  - ~~First implement steps~~
+  
+  - ~~then seconds~~
+  
+  - then beats (in order of complexity)
 
-  - Make it so adjusting one slider causes the others to change so the calculated values remain constant
+    - All the pieces are there for this, just gotta format and display it
+
+- ~~Add two more sliders (Rate 1-127 and Multiplier 1-64 in powers of 2)~~
+
+  - ~~Make it so adjusting one slider causes the others to change so the calculated values remain constant~~
 
 - Make the calculated values adjustable
 
