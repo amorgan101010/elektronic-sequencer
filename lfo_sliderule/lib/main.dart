@@ -9,7 +9,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -114,16 +113,39 @@ class _LFOSlidersState extends State<LFOSliders> {
               min: lfoMultiplierMinPower.toDouble(),
               max: lfoMultiplierMaxPower.toDouble()),
           const Divider(),
-          Text(
-              'LFO Cycles per 16 step bar: ${calculateLFOCyclesPerBar().toString()}'),
+          const SizedBox(
+            height: 10,
+          ),
+          Text('LFO Cycles per 16 step bar: ${calculateLFOCyclesPerBar()}'),
+          const SizedBox(
+            height: 10,
+          ),
+          Text('Bars per LFO Cycle: ${calculateBarsPerLFOCycle()}'),
+          const SizedBox(
+            height: 10,
+          ),
+          Text('Steps per LFO Cycle: ${calculateStepsPerLFOCycle()}'),
+          const SizedBox(
+            height: 10,
+          ),
+          Text('Seconds per LFO Cycle: ${calculateSecondsPerLFOCycle()}'),
         ],
       )),
     );
   }
 
-  num calculateLFOCycleDurationInSteps() => lfoRate * lfoMultiplier * bpm;
+  num calculateStepsPerLFOCycle() => 16 * calculateBarsPerLFOCycle();
+
+  num calculateBeatsPerLFOCycle() => calculateStepsPerLFOCycle() / 4;
 
   num calculateLFOCyclesPerBar() => (lfoRate * lfoMultiplier) / 128;
 
   num calculateBarsPerLFOCycle() => 1 / calculateLFOCyclesPerBar();
+
+  num calculateSecondsPerBeat() => 60 / bpm;
+
+  num calculateSecondsPerBar() => calculateSecondsPerBeat() / 4;
+
+  num calculateSecondsPerLFOCycle() =>
+      calculateSecondsPerBar() * (1 / calculateBarsPerLFOCycle());
 }
