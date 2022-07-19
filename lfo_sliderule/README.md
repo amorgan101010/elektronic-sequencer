@@ -1,23 +1,31 @@
-# square_grid
+# LFO SlideRule
 
-To build a XoX-style grid sequencer in Flutter, first I need to make a grid.
+This seems like a doable flutter programming challenge, making some sliders and displaying some values based on slider position. There is also a lot of room for fancying it up! I'll be starting by targeting the Octatrack's LFO so I don't have to worry about fractional rates.
 
 ## Goals
 
-- ~~Draw a 4x4 grid of numbered squares~~
+- Display 1 slider for BPM (fixed LFO rate and multiplier of 32 and 1 respectively)
 
-- Give the squares an outline
+  - Range of 30-300bpm (ignore fractional BPM for now)
 
-- Make the squares change color when pressed
+- Print LFO Cycle duration in steps, beats, and seconds
 
-- Make the squares color toggle when pressed
+  - First implement steps, then seconds, then beats (in order of complexity)
 
-- Add paging
+- Add two more sliders (Rate 1-127 and Multiplier 1-64 in powers of 2)
 
-### Optional Goals
+  - Make it so adjusting one slider causes the others to change so the calculated values remain constant
 
-I'll have to do 'em eventually, but maybe not in this particular project depending on progress in other areas.
+- Make the calculated values adjustable
 
-- Add a color slider that changes the color of all "active" squares
+  - Make other calculated values update to reflect the user-input calculated value
 
-- Add a basic p-lock (user presses square and selects a color on the slider for that specific square while pressing)
+- Make the sliders update to suggest settings that achieve the user-input calculated value
+
+  - Prefer changing rate first, then multiplier, and finally BPM
+
+  - This will be much more logic-y and much less Flutter-y than the other stuff so it is pretty unlikely
+
+- Add a toggle or row of tabs at the top for selecting different devices
+
+  - Maybe make the page theme reflect the selected device's livery
