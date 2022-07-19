@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -41,8 +43,12 @@ class _LFOSlidersState extends State<LFOSliders> {
 
   // How do I avoid using vars for all this??
   var lfoRate = 64;
-  var lfoMultiplier = 4;
+
+  var lfoMultiplier = 16; // 2^4
+  var lfoMultiplierPower = 4;
+
   var bpm = 120;
+
   var lfoCyclesPerBar = 0;
 
   @override
@@ -57,7 +63,7 @@ class _LFOSlidersState extends State<LFOSliders> {
           const SizedBox(
             height: 10,
           ),
-          const Text('BPM'),
+          Text('BPM: $bpm'),
           const SizedBox(
             height: 10,
           ),
@@ -75,7 +81,7 @@ class _LFOSlidersState extends State<LFOSliders> {
           const SizedBox(
             height: 10,
           ),
-          const Text('Rate'),
+          Text('Rate: $lfoRate'),
           const SizedBox(
             height: 10,
           ),
@@ -92,21 +98,22 @@ class _LFOSlidersState extends State<LFOSliders> {
           const SizedBox(
             height: 10,
           ),
-          const Text('Multiplier'),
+          Text('Multiplier: ${lfoMultiplier}x'),
           const SizedBox(
             height: 10,
           ),
           Slider(
-              value: lfoMultiplier.toDouble(),
+              value: lfoMultiplierPower.toDouble(),
               divisions: lfoMultiplierMaxPower - lfoMultiplierMinPower,
-              onChanged: (newLFOMultiplier) {
+              onChanged: (newLFOMultiplierPower) {
                 setState(() {
-                  lfoMultiplier = newLFOMultiplier ~/ 1;
+                  lfoMultiplierPower = newLFOMultiplierPower.toInt();
+                  lfoMultiplier = pow(2, lfoMultiplierPower).toInt();
                 });
               },
               min: lfoMultiplierMinPower.toDouble(),
               max: lfoMultiplierMaxPower.toDouble()),
-          // TODO: Make this update when sliders move, somehow
+          const Divider(),
           Text(
               'LFO Cycles per 16 step bar: ${calculateLFOCyclesPerBar().toString()}'),
         ],
@@ -117,4 +124,6 @@ class _LFOSlidersState extends State<LFOSliders> {
   num calculateLFOCycleDurationInSteps() => lfoRate * lfoMultiplier * bpm;
 
   num calculateLFOCyclesPerBar() => (lfoRate * lfoMultiplier) / 128;
+
+  num calculateBarsPerLFOCycle() => 1 / calculateLFOCyclesPerBar();
 }
