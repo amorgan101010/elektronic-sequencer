@@ -13,40 +13,37 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'LFO SlideRule',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'LFO SlideRule'),
+      home: const LFOSliders(title: 'LFO SlideRule'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class LFOSliders extends StatefulWidget {
+  const LFOSliders({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<LFOSliders> createState() => _LFOSlidersState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  final lfoRate = 1;
-  final lfoMultiplier = 1;
-  var bpm = 120;
+class _LFOSlidersState extends State<LFOSliders> {
+  final bpmMin = 30;
+  final bpmMax = 300;
+  final lfoRateMin = 1;
+  final lfoRateMax = 127;
 
-  // TODO: Make functions that calculate these values
-  final lfoCycleLengthInSteps = 0;
-  final lfoCycleLengthInBeats = 0;
-  final lfoCycleLengthInSeconds = 0;
+  // These are powers of 2
+  final lfoMultiplierMinPower = 0;
+  final lfoMultiplierMaxPower = 6; // 2^6=64
+
+  // How do I avoid using vars for all this??
+  var lfoRate = 64;
+  var lfoMultiplier = 4;
+  var bpm = 120;
+  var lfoCyclesPerBar = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -55,20 +52,64 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-          child: ListView.builder(
-        itemCount: 1,
-        itemBuilder: (context, index) {
-          return Slider(
+          child: Column(
+        children: <Widget>[
+          const SizedBox(
+            height: 10,
+          ),
+          const Text('BPM'),
+          const SizedBox(
+            height: 10,
+          ),
+          Slider(
               value: bpm.toDouble(),
-              divisions: 4,
+              label: '$bpm',
+              divisions: bpmMax - bpmMin,
               onChanged: (newBpm) {
                 setState(() {
-                  bpm = newBpm ~/ 1;
+                  bpm = newBpm.round();
                 });
               },
-              min: 30,
-              max: 300);
-        },
+              min: bpmMin.toDouble(),
+              max: bpmMax.toDouble()),
+          const SizedBox(
+            height: 10,
+          ),
+          const Text('Rate'),
+          const SizedBox(
+            height: 10,
+          ),
+          Slider(
+              value: lfoRate.toDouble(),
+              divisions: lfoRateMax - lfoRateMin,
+              onChanged: (newLFORate) {
+                setState(() {
+                  lfoRate = newLFORate ~/ 1;
+                });
+              },
+              min: lfoRateMin.toDouble(),
+              max: lfoRateMax.toDouble()),
+          const SizedBox(
+            height: 10,
+          ),
+          const Text('Multiplier'),
+          const SizedBox(
+            height: 10,
+          ),
+          Slider(
+              value: lfoMultiplier.toDouble(),
+              divisions: lfoMultiplierMaxPower - lfoMultiplierMinPower,
+              onChanged: (newLFOMultiplier) {
+                setState(() {
+                  lfoMultiplier = newLFOMultiplier ~/ 1;
+                });
+              },
+              min: lfoMultiplierMinPower.toDouble(),
+              max: lfoMultiplierMaxPower.toDouble()),
+          // TODO: Make this update when sliders move, somehow
+          Text(
+              'LFO Cycles per 16 step bar: ${calculateLFOCyclesPerBar().toString()}'),
+        ],
       )),
     );
   }
