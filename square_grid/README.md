@@ -1,16 +1,23 @@
 # square_grid
 
-A new Flutter project.
+To build a XoX-style grid sequencer in Flutter, first I need to make a grid.
 
-## Getting Started
+## Goals
 
-This project is a starting point for a Flutter application.
+- ~~Draw a 4x4 grid of numbered squares~~
 
-A few resources to get you started if this is your first Flutter project:
+- Give the squares an outline
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Make the squares change color when pressed
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Make the squares color toggle when pressed
+
+- Add paging
+
+### Optional Goals
+
+I'll have to do 'em eventually, but maybe not in this particular project depending on progress in other areas.
+
+- Add a color slider that changes the color of all "active" squares
+
+- Add a basic p-lock (user presses square and selects a color on the slider for that specific square while pressing)
