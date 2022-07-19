@@ -39,13 +39,41 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final lfoRate = 1;
+  final lfoMultiplier = 1;
+  var bpm = 120;
+
+  // TODO: Make functions that calculate these values
+  final lfoCycleLengthInSteps = 0;
+  final lfoCycleLengthInBeats = 0;
+  final lfoCycleLengthInSeconds = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: const Center(child: const Text('TODO: Everything')),
+      body: Center(
+          child: ListView.builder(
+        itemCount: 1,
+        itemBuilder: (context, index) {
+          return Slider(
+              value: bpm.toDouble(),
+              divisions: 4,
+              onChanged: (newBpm) {
+                setState(() {
+                  bpm = newBpm ~/ 1;
+                });
+              },
+              min: 30,
+              max: 300);
+        },
+      )),
     );
   }
+
+  num calculateLFOCycleDurationInSteps() => lfoRate * lfoMultiplier * bpm;
+
+  num calculateLFOCyclesPerBar() => (lfoRate * lfoMultiplier) / 128;
 }
