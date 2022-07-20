@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -50,6 +48,17 @@ class _LFOSlidersState extends State<LFOSliders> {
 
   var lfoCyclesPerBar = 0;
 
+  Text bpmLabel() => Text('BPM: $bpm');
+  Text rateLabel() => Text('Rate: $lfoRate');
+  Text multiplierLabel() => Text('Multiplier: ${lfoMultiplier}x');
+
+  List sliderAttributes() => [
+        SliderAttribute(bpmLabel(), bpm, bpmMax, bpmMin),
+        SliderAttribute(rateLabel(), lfoRate, lfoRateMax, lfoRateMin),
+        SliderAttribute(multiplierLabel(), lfoMultiplierPower,
+            lfoMultiplierMaxPower, lfoMultiplierMinPower),
+      ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +67,78 @@ class _LFOSlidersState extends State<LFOSliders> {
       ),
       body: Center(
           child: Column(
-        children: <Widget>[
+        children: const <Widget>[LabeledSlider(title: 'BPM')],
+      )),
+    );
+  }
+
+  num calculateStepsPerLFOCycle() => 16 * calculateBarsPerLFOCycle();
+
+  num calculateBeatsPerLFOCycle() => calculateStepsPerLFOCycle() / 4;
+
+  num calculateLFOCyclesPerBar() => (lfoRate * lfoMultiplier) / 128;
+
+  num calculateBarsPerLFOCycle() => 1 / calculateLFOCyclesPerBar();
+
+  num calculateSecondsPerBeat() => 60 / bpm;
+
+  num calculateSecondsPerBar() => calculateSecondsPerBeat() * 4;
+
+  num calculateSecondsPerLFOCycle() =>
+      calculateSecondsPerBar() * calculateBarsPerLFOCycle();
+}
+
+// TODO: Make this accept a function that I can use for setting state when I make the slider
+// TODO: why do I get zero 'intellisense' about what this class's attributes are?
+// I am guessing that means I should be using a Widget...
+class SliderAttribute {
+  final Text label;
+  final int currentValue;
+  final int minValue;
+  final int maxValue;
+
+  SliderAttribute(this.label, this.currentValue, this.maxValue, this.minValue);
+}
+
+class LabeledSlider extends StatefulWidget {
+  const LabeledSlider({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  State<LabeledSlider> createState() => _LabeledSliderState();
+}
+
+class _LabeledSliderState extends State<LabeledSlider> {
+  // TODO: Figure out the proper way to manage these values
+  final minValue = 30;
+  final maxValue = 300;
+
+  final label = const Text('placeholder');
+  var currentValue = 120;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        child: Column(children: [
+      label,
+      Slider(
+          value: currentValue.toDouble(),
+          divisions: maxValue - minValue,
+          onChanged: (newValue) {
+            setState(() {
+              currentValue = newValue.round();
+            });
+          },
+          min: minValue.toDouble(),
+          max: maxValue.toDouble())
+    ]));
+  }
+}
+
+/*
+- This is the old blob of elements being replaced with a marginally better list builder
+<Widget>[
           const SizedBox(
             height: 10,
           ),
@@ -130,22 +210,4 @@ class _LFOSlidersState extends State<LFOSliders> {
           ),
           Text('Seconds per LFO Cycle: ${calculateSecondsPerLFOCycle()}'),
         ],
-      )),
-    );
-  }
-
-  num calculateStepsPerLFOCycle() => 16 * calculateBarsPerLFOCycle();
-
-  num calculateBeatsPerLFOCycle() => calculateStepsPerLFOCycle() / 4;
-
-  num calculateLFOCyclesPerBar() => (lfoRate * lfoMultiplier) / 128;
-
-  num calculateBarsPerLFOCycle() => 1 / calculateLFOCyclesPerBar();
-
-  num calculateSecondsPerBeat() => 60 / bpm;
-
-  num calculateSecondsPerBar() => calculateSecondsPerBeat() * 4;
-
-  num calculateSecondsPerLFOCycle() =>
-      calculateSecondsPerBar() * calculateBarsPerLFOCycle();
-}
+*/
