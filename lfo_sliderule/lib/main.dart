@@ -41,9 +41,9 @@ class _LFOSlidersState extends State<LFOSliders> {
   final lfoMultiplierMaxPower = 6; // 2^6=64
 
   // How do I avoid using vars for all this??
-  var lfoRate = 64;
+  var lfoRate = 32;
 
-  var lfoMultiplier = 16; // 2^4
+  var lfoMultiplier = 1; // 2^4
   var lfoMultiplierPower = 4;
 
   var bpm = 120;
@@ -144,8 +144,8 @@ class _LFOSlidersState extends State<LFOSliders> {
 
   num calculateSecondsPerBeat() => 60 / bpm;
 
-  num calculateSecondsPerBar() => calculateSecondsPerBeat() / 4;
+  num calculateSecondsPerBar() => calculateSecondsPerBeat() * 4;
 
   num calculateSecondsPerLFOCycle() =>
-      calculateSecondsPerBar() * (1 / calculateBarsPerLFOCycle());
+      calculateSecondsPerBar() * calculateBarsPerLFOCycle();
 }
