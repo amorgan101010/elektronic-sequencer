@@ -43,8 +43,8 @@ class _LFOSlidersState extends State<LFOSliders> {
   // How do I avoid using vars for all this??
   var lfoRate = 32;
 
-  var lfoMultiplier = 1; // 2^4
-  var lfoMultiplierPower = 4;
+  var lfoMultiplier = 1; // 2^0
+  var lfoMultiplierPower = 0;
 
   var bpm = 120;
 
