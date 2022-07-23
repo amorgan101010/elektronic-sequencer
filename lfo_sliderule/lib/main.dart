@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'LFO SlideRule',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
       ),
       home: const LFOSliders(title: 'LFO SlideRule'),
     );
@@ -52,12 +52,7 @@ class _LFOSlidersState extends State<LFOSliders> {
   Text rateLabel() => Text('Rate: $lfoRate');
   Text multiplierLabel() => Text('Multiplier: ${lfoMultiplier}x');
 
-  List sliderAttributes() => [
-        SliderAttribute(bpmLabel(), bpm, bpmMax, bpmMin),
-        SliderAttribute(rateLabel(), lfoRate, lfoRateMax, lfoRateMin),
-        SliderAttribute(multiplierLabel(), lfoMultiplierPower,
-            lfoMultiplierMaxPower, lfoMultiplierMinPower),
-      ];
+  final bpmSlider = const LabeledSlider();
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +62,7 @@ class _LFOSlidersState extends State<LFOSliders> {
       ),
       body: Center(
           child: Column(
-        children: const <Widget>[LabeledSlider(title: 'BPM')],
+        children: const <Widget>[LabeledSlider()],
       )),
     );
   }
@@ -88,22 +83,8 @@ class _LFOSlidersState extends State<LFOSliders> {
       calculateSecondsPerBar() * calculateBarsPerLFOCycle();
 }
 
-// TODO: Make this accept a function that I can use for setting state when I make the slider
-// TODO: why do I get zero 'intellisense' about what this class's attributes are?
-// I am guessing that means I should be using a Widget...
-class SliderAttribute {
-  final Text label;
-  final int currentValue;
-  final int minValue;
-  final int maxValue;
-
-  SliderAttribute(this.label, this.currentValue, this.maxValue, this.minValue);
-}
-
 class LabeledSlider extends StatefulWidget {
-  const LabeledSlider({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const LabeledSlider({Key? key}) : super(key: key);
 
   @override
   State<LabeledSlider> createState() => _LabeledSliderState();
@@ -114,8 +95,9 @@ class _LabeledSliderState extends State<LabeledSlider> {
   final minValue = 30;
   final maxValue = 300;
 
-  final label = const Text('placeholder');
   var currentValue = 120;
+
+  var label = const Text('BPM: 120');
 
   @override
   Widget build(BuildContext context) {
@@ -133,6 +115,17 @@ class _LabeledSliderState extends State<LabeledSlider> {
           min: minValue.toDouble(),
           max: maxValue.toDouble())
     ]));
+  }
+}
+
+// I really don't know if this is the right way to do this...
+// I just want a model that contains the unique min and max and name for each slider!
+class SliderAttributes extends StatelessWidget {
+  const SliderAttributes({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
 
