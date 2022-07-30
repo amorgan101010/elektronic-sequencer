@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'LFO SlideRule',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
       ),
       home: const LFOSliders(title: 'LFO SlideRule'),
     );
@@ -50,6 +48,12 @@ class _LFOSlidersState extends State<LFOSliders> {
 
   var lfoCyclesPerBar = 0;
 
+  Text bpmLabel() => Text('BPM: $bpm');
+  Text rateLabel() => Text('Rate: $lfoRate');
+  Text multiplierLabel() => Text('Multiplier: ${lfoMultiplier}x');
+
+  final bpmSlider = const LabeledSlider();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +62,76 @@ class _LFOSlidersState extends State<LFOSliders> {
       ),
       body: Center(
           child: Column(
-        children: <Widget>[
+        children: const <Widget>[LabeledSlider()],
+      )),
+    );
+  }
+
+  num calculateStepsPerLFOCycle() => 16 * calculateBarsPerLFOCycle();
+
+  num calculateBeatsPerLFOCycle() => calculateStepsPerLFOCycle() / 4;
+
+  num calculateLFOCyclesPerBar() => (lfoRate * lfoMultiplier) / 128;
+
+  num calculateBarsPerLFOCycle() => 1 / calculateLFOCyclesPerBar();
+
+  num calculateSecondsPerBeat() => 60 / bpm;
+
+  num calculateSecondsPerBar() => calculateSecondsPerBeat() * 4;
+
+  num calculateSecondsPerLFOCycle() =>
+      calculateSecondsPerBar() * calculateBarsPerLFOCycle();
+}
+
+class LabeledSlider extends StatefulWidget {
+  const LabeledSlider({Key? key}) : super(key: key);
+
+  @override
+  State<LabeledSlider> createState() => _LabeledSliderState();
+}
+
+class _LabeledSliderState extends State<LabeledSlider> {
+  // TODO: Figure out the proper way to manage these values
+  final minValue = 30;
+  final maxValue = 300;
+
+  var currentValue = 120;
+
+  var label = const Text('BPM: 120');
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        child: Column(children: [
+      label,
+      Slider(
+          value: currentValue.toDouble(),
+          divisions: maxValue - minValue,
+          onChanged: (newValue) {
+            setState(() {
+              currentValue = newValue.round();
+            });
+          },
+          min: minValue.toDouble(),
+          max: maxValue.toDouble())
+    ]));
+  }
+}
+
+// I really don't know if this is the right way to do this...
+// I just want a model that contains the unique min and max and name for each slider!
+class SliderAttributes extends StatelessWidget {
+  const SliderAttributes({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+/*
+- This is the old blob of elements being replaced with a marginally better list builder
+<Widget>[
           const SizedBox(
             height: 10,
           ),
@@ -130,22 +203,4 @@ class _LFOSlidersState extends State<LFOSliders> {
           ),
           Text('Seconds per LFO Cycle: ${calculateSecondsPerLFOCycle()}'),
         ],
-      )),
-    );
-  }
-
-  num calculateStepsPerLFOCycle() => 16 * calculateBarsPerLFOCycle();
-
-  num calculateBeatsPerLFOCycle() => calculateStepsPerLFOCycle() / 4;
-
-  num calculateLFOCyclesPerBar() => (lfoRate * lfoMultiplier) / 128;
-
-  num calculateBarsPerLFOCycle() => 1 / calculateLFOCyclesPerBar();
-
-  num calculateSecondsPerBeat() => 60 / bpm;
-
-  num calculateSecondsPerBar() => calculateSecondsPerBeat() * 4;
-
-  num calculateSecondsPerLFOCycle() =>
-      calculateSecondsPerBar() * calculateBarsPerLFOCycle();
-}
+*/
