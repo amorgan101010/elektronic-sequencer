@@ -3,21 +3,20 @@ import 'package:soundpool/soundpool.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 
-// Copied from Soundpool example (with new local audio)
-
+// Based on Soundpool example: <https://pub.dev/packages/soundpool/example>
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MaterialApp(home: SoundpoolInitializer()));
+  runApp(const MaterialApp(home: BrainzStretcher()));
 }
 
-class SoundpoolInitializer extends StatefulWidget {
-  const SoundpoolInitializer({Key? key}) : super(key: key);
+class BrainzStretcher extends StatefulWidget {
+  const BrainzStretcher({Key? key}) : super(key: key);
 
   @override
-  SoundpoolInitializerState createState() => SoundpoolInitializerState();
+  BrainzStretcherState createState() => BrainzStretcherState();
 }
 
-class SoundpoolInitializerState extends State<SoundpoolInitializer> {
+class BrainzStretcherState extends State<BrainzStretcher> {
   Soundpool? _pool;
   SoundpoolOptions _soundpoolOptions = const SoundpoolOptions();
 
@@ -70,12 +69,7 @@ class SimpleApp extends StatefulWidget {
 }
 
 class SimpleAppState extends State<SimpleApp> {
-  int? _alarmSoundStreamId;
-  int _cheeringStreamId = -1;
-
-  String get _cheeringUrl => kIsWeb
-      ? '/c-c-1.mp3'
-      : 'https://raw.githubusercontent.com/ukasz123/soundpool/feature/web_support/example/web/c-c-1.mp3';
+  int? _brainzSoundStreamId;
 
   Soundpool get _soundpool => widget.pool;
 
@@ -88,7 +82,6 @@ class SimpleAppState extends State<SimpleApp> {
 
   void _loadSounds() {
     _soundId = _loadSound();
-    _cheeringId = _loadCheering();
   }
 
   @override
@@ -99,10 +92,8 @@ class SimpleAppState extends State<SimpleApp> {
     }
   }
 
-  double _volume = 1.0;
   double _rate = 1.0;
   late Future<int> _soundId;
-  late Future<int> _cheeringId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,7 +104,7 @@ class SimpleAppState extends State<SimpleApp> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('Rolling dices'),
+              const Text('BRAINZ.mp3'),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -134,11 +125,6 @@ class SimpleAppState extends State<SimpleApp> {
                 ],
               ),
               const SizedBox(height: 8),
-              ElevatedButton(
-                onPressed: _playCheering,
-                child: const Text("Play cheering"),
-              ),
-              const SizedBox(height: 4),
               const Text('Set rate '),
               Row(children: [
                 Expanded(
@@ -150,22 +136,13 @@ class SimpleAppState extends State<SimpleApp> {
                       setState(() {
                         _rate = newRate;
                       });
-                      _updateCheeringRate();
+                      _updateBrainzRate();
                     },
                   ),
                 ),
                 Text(_rate.toStringAsFixed(3)),
               ]),
               const SizedBox(height: 8.0),
-              const Text('Volume'),
-              Slider.adaptive(
-                  value: _volume,
-                  onChanged: (newVolume) {
-                    setState(() {
-                      _volume = newVolume;
-                    });
-                    _updateVolume(newVolume);
-                  }),
             ],
           ),
         ),
@@ -178,46 +155,30 @@ class SimpleAppState extends State<SimpleApp> {
     return await _soundpool.load(asset);
   }
 
-  Future<int> _loadCheering() async {
-    return await _soundpool.loadUri(_cheeringUrl);
-  }
-
   Future<void> _playSound() async {
-    var alarmSound = await _soundId;
-    _alarmSoundStreamId = await _soundpool.play(alarmSound);
-  }
-
-  Future<void> _pauseSound() async {
-    if (_alarmSoundStreamId != null) {
-      await _soundpool.pause(_alarmSoundStreamId!);
-    }
-  }
-
-  Future<void> _stopSound() async {
-    if (_alarmSoundStreamId != null) {
-      await _soundpool.stop(_alarmSoundStreamId!);
-    }
-  }
-
-  Future<void> _playCheering() async {
-    var sound = await _cheeringId;
-    _cheeringStreamId = await _soundpool.play(
-      sound,
+    var brainzSound = await _soundId;
+    _brainzSoundStreamId = await _soundpool.play(
+      brainzSound,
       rate: _rate,
     );
   }
 
-  Future<void> _updateCheeringRate() async {
-    if (_cheeringStreamId > 0) {
-      await _soundpool.setRate(
-          streamId: _cheeringStreamId, playbackRate: _rate);
+  Future<void> _pauseSound() async {
+    if (_brainzSoundStreamId != null) {
+      await _soundpool.pause(_brainzSoundStreamId!);
     }
   }
 
-  Future<void> _updateVolume(newVolume) async {
-    // if (_alarmSound >= 0){
-    var cheeringSound = await _cheeringId;
-    _soundpool.setVolume(soundId: cheeringSound, volume: newVolume);
-    // }
+  Future<void> _stopSound() async {
+    if (_brainzSoundStreamId != null) {
+      await _soundpool.stop(_brainzSoundStreamId!);
+    }
+  }
+
+  Future<void> _updateBrainzRate() async {
+    if (_brainzSoundStreamId! > 0) {
+      await _soundpool.setRate(
+          streamId: _brainzSoundStreamId!, playbackRate: _rate);
+    }
   }
 }

@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "the_button" "\0"
+            VALUE "FileDescription", "brainz_stretcher" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "the_button" "\0"
+            VALUE "InternalName", "brainz_stretcher" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "the_button.exe" "\0"
-            VALUE "ProductName", "the_button" "\0"
+            VALUE "OriginalFilename", "brainz_stretcher.exe" "\0"
+            VALUE "ProductName", "brainz_stretcher" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

@@ -1,16 +1,3 @@
-# the_button
+# brainz_stretcher
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This started as a different app, `the_button`, but I kinda shifted gears when I switched from [`assets_audio_player`](https://pub.dev/packages/assets_audio_player) to [`soundpool`](https://pub.dev/packages/soundpool). This is a stripped down version of the Soundpool example project, with my own recording. I am sort of misusing Soundpool, as it isn't supposed to be used as a media player...but I want to familiarize myself with it. I switched to it from `assets_audio_player` because I thought there was something wrong with the latter; it actually ended up being an issue with Cocoapods on an Arm Mac, which was solved by uninstalling the Gem and re-installing it with Homebrew (<https://stackoverflow.com/questions/64901180/how-to-run-cocoapods-on-apple-silicon-m1>). Pick ur own timestretching!

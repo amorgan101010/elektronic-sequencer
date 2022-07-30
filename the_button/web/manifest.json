@@ -1,6 +1,6 @@
 {
-    "name": "the_button",
-    "short_name": "the_button",
+    "name": "brainz_stretcher",
+    "short_name": "brainz_stretcher",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

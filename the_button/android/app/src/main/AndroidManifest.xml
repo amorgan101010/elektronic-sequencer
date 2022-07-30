@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.the_button">
+    package="com.example.brainz_stretcher">
    <application
-        android:label="the_button"
+        android:label="brainz_stretcher"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
