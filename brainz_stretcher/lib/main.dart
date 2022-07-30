@@ -52,8 +52,6 @@ class BrainzStretcherState extends State<BrainzStretcher> {
     setState(() {
       _soundpoolOptions = soundpoolOptions;
       _pool = Soundpool.fromOptions(options: _soundpoolOptions);
-      // ignore: avoid_print
-      print('pool updated: $_pool');
     });
   }
 }
@@ -112,11 +110,12 @@ class SimpleAppState extends State<SimpleApp> {
                     onPressed: _playSound,
                     child: const Text("Play"),
                   ),
-                  const SizedBox(width: 8),
+                  // TODO: Fix pause
+                  /* const SizedBox(width: 8),
                   ElevatedButton(
                     onPressed: _pauseSound,
                     child: const Text("Pause"),
-                  ),
+                  ), */
                   const SizedBox(width: 8),
                   ElevatedButton(
                     onPressed: _stopSound,
@@ -163,11 +162,12 @@ class SimpleAppState extends State<SimpleApp> {
     );
   }
 
-  Future<void> _pauseSound() async {
+// TODO: Figure out why pause can't be resumed and causes exception on stop
+/*   Future<void> _pauseSound() async {
     if (_brainzSoundStreamId != null) {
       await _soundpool.pause(_brainzSoundStreamId!);
     }
-  }
+  } */
 
   Future<void> _stopSound() async {
     if (_brainzSoundStreamId != null) {
@@ -176,9 +176,11 @@ class SimpleAppState extends State<SimpleApp> {
   }
 
   Future<void> _updateBrainzRate() async {
-    if (_brainzSoundStreamId! > 0) {
-      await _soundpool.setRate(
-          streamId: _brainzSoundStreamId!, playbackRate: _rate);
+    if (_brainzSoundStreamId != null) {
+      if (_brainzSoundStreamId! > 0) {
+        await _soundpool.setRate(
+            streamId: _brainzSoundStreamId!, playbackRate: _rate);
+      }
     }
   }
 }
