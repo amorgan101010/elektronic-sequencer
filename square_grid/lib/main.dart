@@ -34,7 +34,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final int gridSize = 8;
+  final int gridSize = 4;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
           child: GridView.count(
               shrinkWrap: true,
-              padding: const EdgeInsets.all(35),
+              padding: const EdgeInsets.all(3),
               crossAxisCount: gridSize,
               children: List.generate(
                 pow(gridSize, 2).toInt(),
@@ -55,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: GridButton(
                       rowIndex: rowIndex,
                       columnIndex: columnIndex,
+                      gridSize: gridSize,
                     ),
                   );
                 },

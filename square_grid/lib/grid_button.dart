@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class GridButton extends StatefulWidget {
   final int rowIndex;
   final int columnIndex;
+  final int gridSize;
   const GridButton(
-      {Key? key, required this.rowIndex, required this.columnIndex})
+      {Key? key,
+      required this.rowIndex,
+      required this.columnIndex,
+      required this.gridSize})
       : super(key: key);
 
   @override
@@ -16,22 +21,18 @@ class GridButtonState extends State<GridButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5.0),
-      ),
-      child: ElevatedButton(
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(
-                _isSelected ? Theme.of(context).primaryColor : Colors.white)),
-        onPressed: _toggleSelected,
-        child: Container(
-          padding: const EdgeInsets.all(5),
-          child: Center(
-            child: Text((widget.rowIndex + widget.columnIndex + 1).toString()),
+    return ElevatedButton(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(
+              _isSelected ? Theme.of(context).primaryColor : Colors.white)),
+      onPressed: _toggleSelected,
+      child: AutoSizeText(
+          style: TextStyle(
+            color: _isSelected ? Colors.white : Theme.of(context).primaryColor,
           ),
-        ),
-      ),
+          maxLines: 1,
+          ((widget.rowIndex * widget.gridSize) + widget.columnIndex + 1)
+              .toString()),
     );
   }
 
