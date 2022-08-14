@@ -22,6 +22,9 @@ class GridButtonState extends State<GridButton> {
         border: Border.all(width: 2.0, color: const Color(0xFF3e3e3e)),
       ),
       child: ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                  _isSelected ? const Color(0xFFffbdc0) : Colors.white)),
           // todo: restyle
           //color: _isSelected ? Color(0xFFffbdc0) : Colors.white,
           onPressed: _toggleSelected,
