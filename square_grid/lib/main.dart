@@ -11,22 +11,23 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Square Grid',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
       ),
-      home: const MyHomePage(title: 'Square Grid'),
+      home: const MyHomePage(title: 'Square Grid', gridSize: 8),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title, required this.gridSize})
+      : super(key: key);
 
+  final int gridSize;
   final String title;
 
   @override
@@ -34,7 +35,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final int gridSize = 4;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,17 +45,17 @@ class _MyHomePageState extends State<MyHomePage> {
           child: GridView.count(
               shrinkWrap: true,
               padding: const EdgeInsets.all(3),
-              crossAxisCount: gridSize,
+              crossAxisCount: widget.gridSize,
               children: List.generate(
-                pow(gridSize, 2).toInt(),
+                pow(widget.gridSize, 2).toInt(),
                 (index) {
-                  final rowIndex = (index ~/ gridSize);
-                  final columnIndex = index % gridSize;
+                  final rowIndex = (index ~/ widget.gridSize);
+                  final columnIndex = index % widget.gridSize;
                   return Card(
                     child: GridButton(
                       rowIndex: rowIndex,
                       columnIndex: columnIndex,
-                      gridSize: gridSize,
+                      gridSize: widget.gridSize,
                     ),
                   );
                 },

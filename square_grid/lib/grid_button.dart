@@ -26,11 +26,12 @@ class GridButtonState extends State<GridButton> {
           backgroundColor: MaterialStateProperty.all<Color>(
               _isSelected ? Theme.of(context).primaryColor : Colors.white)),
       onPressed: _toggleSelected,
-      child: AutoSizeText(
+      child: Text(
           style: TextStyle(
-            color: _isSelected ? Colors.white : Theme.of(context).primaryColor,
-          ),
-          maxLines: 1,
+              color:
+                  _isSelected ? Colors.white : Theme.of(context).primaryColor,
+              fontSize: 12),
+          //maxLines: 1,
           ((widget.rowIndex * widget.gridSize) + widget.columnIndex + 1)
               .toString()),
     );
