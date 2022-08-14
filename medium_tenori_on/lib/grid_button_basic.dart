@@ -16,10 +16,7 @@ class GridButtonState extends State<GridButton> {
 
   @override
   Widget build(BuildContext context) {
-    final gridSize = GridSize();
     return Container(
-      width: gridSize.buttonWidth,
-      height: gridSize.buttonHeight,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5.0),
         border: Border.all(width: 2.0, color: const Color(0xFF3e3e3e)),
@@ -28,7 +25,7 @@ class GridButtonState extends State<GridButton> {
           // todo: restyle
           //color: _isSelected ? Color(0xFFffbdc0) : Colors.white,
           onPressed: _toggleSelected,
-          child: const Text("x")),
+          child: const Text("")),
     );
   }
 
@@ -37,11 +34,4 @@ class GridButtonState extends State<GridButton> {
       _isSelected = !_isSelected;
     });
   }
-}
-
-class GridSize {
-  final buttonWidth = 50.0;
-  final buttonHeight = 50.0;
-  final width = 50.0;
-  final height = 50.0;
 }

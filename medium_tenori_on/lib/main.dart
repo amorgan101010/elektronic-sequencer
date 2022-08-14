@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Grid(gridSize: 64),
+      home: const Center(child: Grid(gridSize: 4)),
     );
   }
 }
