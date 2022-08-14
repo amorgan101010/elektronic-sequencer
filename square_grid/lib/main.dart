@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'grid_button.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -9,31 +11,23 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Square Grid',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
       ),
-      home: const MyHomePage(title: 'Square Grid'),
+      home: const MyHomePage(title: 'Square Grid', gridSize: 4),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title, required this.gridSize})
+      : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
+  final int gridSize;
   final String title;
 
   @override
@@ -50,20 +44,18 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
           child: GridView.count(
               shrinkWrap: true,
-              padding: const EdgeInsets.all(35),
-              crossAxisCount: 4,
+              padding: const EdgeInsets.all(3),
+              crossAxisCount: widget.gridSize,
               children: List.generate(
-                16,
+                pow(widget.gridSize, 2).toInt(),
                 (index) {
-                  // TODO: Add an outline
-                  // TODO: Make the fill color configurable
+                  final rowIndex = (index ~/ widget.gridSize);
+                  final columnIndex = index % widget.gridSize;
                   return Card(
-                    child: Container(
-                      color: Theme.of(context).primaryColor,
-                      padding: const EdgeInsets.all(5),
-                      child: Center(
-                        child: Text((index + 1).toString()),
-                      ),
+                    child: GridButton(
+                      rowIndex: rowIndex,
+                      columnIndex: columnIndex,
+                      gridSize: widget.gridSize,
                     ),
                   );
                 },
