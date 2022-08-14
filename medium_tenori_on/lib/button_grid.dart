@@ -8,7 +8,6 @@ class Grid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final gridSizeObject = GridSize();
     final buttons = List.generate(
       gridSize,
       (columnIndex) => List.generate(
@@ -32,12 +31,9 @@ class Grid extends StatelessWidget {
     );
 
     return Container(
-      width: gridSizeObject.width,
-      height: gridSizeObject.height,
       decoration: BoxDecoration(
-          color: Colors.grey[200],
-          borderRadius: BorderRadius.circular(5.0),
-          border: Border.all(width: 2.0, color: const Color(0xFF3e3e3e))),
+        color: Colors.grey[200],
+      ),
       child: buttonGrid,
     );
   }
